@@ -37,14 +37,21 @@ export const signup = async (req, res) => {
       profilePic,
     });
 
-    await newUser.save();
+    if (newUser) {
+      //generate JWTOken
+      await newUser.save();
 
-    res.status(201).json({
-      _id: newUser._id,
-      firstName: newUser.firstName,
-      lastName: newUser.lastName,
-      userName: newUser.userName,
-    });
+      res.status(201).json({
+        _id: newUser._id,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+        userName: newUser.userName,
+      });
+    } else {
+      res.status(400).json({
+        error: "Invalid user data",
+      });
+    }
   } catch (error) {
     // console.log(error.message);
     res.status(500).json({
