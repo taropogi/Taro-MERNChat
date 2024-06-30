@@ -24,10 +24,37 @@ export const sendMessage = async (req, res) => {
     if (newMessage) {
       conversation.messages.push(newMessage._id);
     }
+
+    // socket IO will go here
+
     await Promise.all([newMessage.save(), conversation.save()]);
 
     res.status(201).json({
       newMessage,
+    });
+  } catch (error) {
+    res.status(error.statusCode || 500).json({
+      error: error.message || "Internal Server Error",
+    });
+  }
+};
+
+export const getMessages = async (req, res) => {
+  try {
+    const { id: userToChatId } = req.params;
+    const senderId = req.user._id;
+    const conversation = await Conversation.findOne({
+      participants: { $all: [senderId, userToChatId] },
+    }).populate("messages");
+
+    if (!conversation) {
+      res.status(200).json({
+        messages: [],
+      });
+    }
+    const { messages } = conversation;
+    res.status(200).json({
+      messages,
     });
   } catch (error) {
     res.status(error.statusCode || 500).json({

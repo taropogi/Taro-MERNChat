@@ -1,6 +1,6 @@
 ## About
 
-Owned and developed by Richard Bernisca
+Owned and developed by [Richard Bernisca](https://richardbernisca.com/about)
 
 ## Tools
 
