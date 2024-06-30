@@ -4,7 +4,7 @@ const Types = Schema.Types;
 
 const conversationSchema = Schema(
   {
-    participant: [
+    participants: [
       {
         type: Types.ObjectId,
         ref: "User",
