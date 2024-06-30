@@ -4,7 +4,7 @@ Owned and developed by Richard Bernisca
 
 ## Tools
 
-*NodeJS <br>
-*ExpressJS
-*MongoDb
-*ReactJS (18.x)
+- NodeJS
+- ExpressJS
+- MongoDb
+- ReactJS (18.x)
