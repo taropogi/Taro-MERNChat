@@ -1,12 +1,16 @@
 import express from "express";
 import dotenv from "dotenv";
+import connectDb from "./db/connectdb.js";
+
+//routes
+import authRoutes from "./routes/auth.routes.js";
+
 const app = express();
 
 dotenv.config();
 const PORT = process.env.PORT || 5000;
 
-//routes
-import authRoutes from "./routes/auth.routes.js";
+app.use(express.json()); // to parse the incoming requests with JSON payloads (from req.body)
 
 app.get("/", (req, res) => {
   res.send("This is the API Server");
@@ -15,5 +19,6 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 
 app.listen(PORT, () => {
-  console.log("App running");
+  connectDb();
+  console.log("App runningx");
 });
