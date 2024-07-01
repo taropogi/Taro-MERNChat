@@ -10,6 +10,10 @@ Owned and developed by [Richard Bernisca](https://richardbernisca.com/about)
 - ReactJS (18.x)
 - Tailwind + Daisy UI
 
+### Other packages used
+
+- React Hot Toast (for popups)
+
 ## Date Started
 
 Development of this application began on **July 30,2024**
