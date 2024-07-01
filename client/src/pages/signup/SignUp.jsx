@@ -104,8 +104,15 @@ export default function SignUp() {
           </Link>
 
           <div>
-            <button className="btn btn-block btn-sm mt-2 border border-slate-700">
-              Sign Up
+            <button
+              disabled={isLoading}
+              className="btn btn-block btn-sm mt-2 border border-slate-700"
+            >
+              {isLoading ? (
+                <span className="loading loading-dots loading-xs"></span>
+              ) : (
+                "Sign Up"
+              )}
             </button>
           </div>
         </form>

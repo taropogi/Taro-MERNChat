@@ -9,6 +9,12 @@ const useLogin = () => {
   const login = async (e) => {
     e.preventDefault();
     try {
+      if (!userName || !password) {
+        toast.error("Username and Password are required.");
+        return;
+      }
+      setIsLoading(true);
+
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
@@ -23,8 +29,11 @@ const useLogin = () => {
       }
       localStorage.setItem("chat-user", JSON.stringify(data));
       setAuthUser(data);
+      toast.success("You are now logged in 😉");
     } catch (error) {
-      toast.error("Invalid Username or Password");
+      toast.error(error.message || "Invalid Username or Password");
+    } finally {
+      setIsLoading(false);
     }
   };
 

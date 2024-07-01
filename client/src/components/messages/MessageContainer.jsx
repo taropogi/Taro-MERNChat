@@ -3,7 +3,7 @@ import MessageInput from "./MessageInput";
 import Messages from "./Messages";
 import NoChatSelected from "./NoChatSelected";
 export default function MessageContainer() {
-  const [hasSelectedChat, setHasSelectedChat] = useState(true);
+  const [hasSelectedChat, setHasSelectedChat] = useState(false);
 
   return (
     <div className="md:minw-w-[450px] flex flex-col">
