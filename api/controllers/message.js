@@ -1,7 +1,11 @@
 import Conversation from "../models/conversation.js";
 import Message from "../models/message.js";
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms * 1000));
+}
 export const sendMessage = async (req, res) => {
   try {
+    await sleep(1);
     const { message } = req.body;
     const receiverId = req.params.id;
     const senderId = req.user._id;
@@ -48,11 +52,12 @@ export const getMessages = async (req, res) => {
     }).populate("messages");
 
     if (!conversation) {
-      res.status(200).json({
+      return res.status(200).json({
         messages: [],
       });
     }
     const { messages } = conversation;
+
     res.status(200).json({
       messages,
     });
