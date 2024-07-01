@@ -1,11 +1,16 @@
 import { useAuth } from "../../contextProviders/AuthContext";
 import useConversation from "../../zustand/useConversation";
+import { extractTime } from "../../utils/extractTime";
 export default function Message({ message }) {
   const { authUser } = useAuth();
   const isSenderMe = authUser._id === message.senderId;
   const {
-    selectedConversation: { profilePic: toChatProfilePic },
+    selectedConversation: {
+      profilePic: toChatProfilePic,
+      firstName: toChatFirstName,
+    },
   } = useConversation();
+  const formattedTime = extractTime(message.createdAt);
   return (
     <div className={`chat chat-${isSenderMe ? "end" : "start"}`}>
       <div className="chat-image avatar">
@@ -17,15 +22,14 @@ export default function Message({ message }) {
         </div>
       </div>
       <div className="chat-header">
-        You
-        <time className="text-xs opacity-50">12:45</time>
+        <span>{isSenderMe ? "You " : `${toChatFirstName} `} </span>
+        <time className="text-xs opacity-50">{formattedTime}</time>
       </div>
       <div
         className={`chat-bubble ${isSenderMe ? "bg-blue-500 text-white" : ""}`}
       >
         {message.message}
       </div>
-      <div className="chat-footer opacity-50">Delivered</div>
     </div>
   );
 }

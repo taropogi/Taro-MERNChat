@@ -1,21 +1,31 @@
 import { IoSend } from "react-icons/io5";
 import useSendMessage from "../../hooks/useSendMessage";
+import { useEffect, useRef } from "react";
+
 export default function MessageInput() {
+  const refMessageInput = useRef(null);
   const {
     isLoading: isSending,
     message,
     setMessage,
     handleSendMessage,
   } = useSendMessage();
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     handleSendMessage();
   };
+
+  useEffect(() => {
+    refMessageInput?.current.focus();
+  }, [isSending]);
+
   return (
     <form className="px-4 my-3" onSubmit={handleSubmit}>
       <div className="w-full relative">
         <input
+          ref={refMessageInput}
           disabled={isSending}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
