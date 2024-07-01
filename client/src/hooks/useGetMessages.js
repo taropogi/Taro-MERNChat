@@ -32,5 +32,6 @@ export default function useGetMessages() {
   return {
     isLoading,
     messages,
+    receiverId,
   };
 }

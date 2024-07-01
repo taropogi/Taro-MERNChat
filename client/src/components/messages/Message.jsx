@@ -1,8 +1,10 @@
 import { useAuth } from "../../contextProviders/AuthContext";
 import useConversation from "../../zustand/useConversation";
 import { extractTime } from "../../utils/extractTime";
-export default function Message({ message }) {
+
+export default function Message({ isOnline, message }) {
   const { authUser } = useAuth();
+
   const isSenderMe = authUser._id === message.senderId;
   const {
     selectedConversation: {
@@ -11,9 +13,14 @@ export default function Message({ message }) {
     },
   } = useConversation();
   const formattedTime = extractTime(message.createdAt);
+
   return (
     <div className={`chat chat-${isSenderMe ? "end" : "start"}`}>
-      <div className="chat-image avatar">
+      <div
+        className={`chat-image avatar ${
+          isOnline && !isSenderMe ? "online" : ""
+        }`}
+      >
         <div className="w-10 rounded-full">
           <img
             alt="User Avatar"

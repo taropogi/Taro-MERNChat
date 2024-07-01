@@ -1,10 +1,15 @@
 import useConversation from "../../../zustand/useConversation";
+import { useSocket } from "../../../contextProviders/SocketContext";
 export default function Conversation({ conversation, emoji, isLast = false }) {
   const { profilePic, firstName, lastName } = conversation;
   const fullName = `${firstName} ${lastName}`;
 
   const { selectedConversation, setSelectedConversation } = useConversation();
   const isSelected = selectedConversation?._id === conversation._id;
+
+  const { onlineUsers } = useSocket();
+  const isOnline = onlineUsers.includes(conversation._id);
+
   return (
     <>
       <div
@@ -13,7 +18,7 @@ export default function Conversation({ conversation, emoji, isLast = false }) {
           isSelected ? "bg-sky-500" : ""
         } flex gap-2 items-center hover:bg-sky-500 rounded p-2 py-1 cursor-pointer`}
       >
-        <div className="avatar online">
+        <div className={`avatar ${isOnline ? "online" : ""}`}>
           <div className="w-12 rounded-full">
             <img src={profilePic} alt="user avatar" />
           </div>
