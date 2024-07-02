@@ -13,7 +13,8 @@ export const sendMessage = async (req, res) => {
     const senderId = req.user._id;
     let conversation = await Conversation.findOne({
       participants: { $all: [senderId, receiverId] },
-    });
+    }).populate("participants");
+
     if (!conversation) {
       conversation = new Conversation({
         participants: [senderId, receiverId],
@@ -39,6 +40,7 @@ export const sendMessage = async (req, res) => {
       // use to send event to specific client
       io.to(receiverSockId).emit("newMessage", newMessage);
     }
+
     res.status(201).json({
       newMessage,
     });

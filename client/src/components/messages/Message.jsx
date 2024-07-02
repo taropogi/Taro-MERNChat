@@ -13,6 +13,7 @@ export default function Message({ isOnline, message }) {
     },
   } = useConversation();
   const formattedTime = extractTime(message.createdAt);
+  const shakeClass = message?.shouldShake ? "shake" : "";
 
   return (
     <>
@@ -24,7 +25,7 @@ export default function Message({ isOnline, message }) {
         >
           <div className="w-10 rounded-full">
             <img
-              alt="Tailwind CSS chat bubble component"
+              alt="User avatar"
               src={isSenderMe ? authUser.profilePic : toChatProfilePic}
             />
           </div>
@@ -34,7 +35,7 @@ export default function Message({ isOnline, message }) {
           <time className="text-xs opacity-50">{formattedTime}</time>
         </div>
         <div
-          className={`chat-bubble ${
+          className={`chat-bubble ${shakeClass} ${
             isSenderMe ? "bg-blue-500 text-white" : ""
           }`}
         >
