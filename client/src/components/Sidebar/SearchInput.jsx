@@ -37,7 +37,7 @@ export default function SearchInput() {
         className="input input-bordered rounded-full"
         placeholder="Search.."
       />
-      <button type="submit" className="btn btn-circle bg-sky-500 text-white">
+      <button type="submit" className="btn btn-circle bg-red-400 text-white">
         <IoSearchSharp className="w-6 h-6 outline-none" />
       </button>
     </form>

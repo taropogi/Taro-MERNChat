@@ -24,6 +24,15 @@ io.on("connection", (socket) => {
 
   // send event to ll connected clients
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
+
+  // listening to typing event from frontend
+  socket.on("typing", (data) => {
+    const receiverSocketId = getReceiverSocketId(data.receiverId);
+    if (receiverSocketId) {
+      // use to send event to specific client
+      io.to(receiverSocketId).emit("typing");
+    }
+  });
   // socket.on is used to listen to the events.
   // Can be used both on client and server side
   socket.on("disconnect", () => {

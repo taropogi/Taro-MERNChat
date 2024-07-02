@@ -1,9 +1,7 @@
 import User from "../models/user.js";
 import bcrypt from "bcryptjs";
 import generateTokenAndSetCookie from "../utils/generateToken.js";
-function sleep(ms) {
-  return new Promise((resolve) => setTimeout(resolve, ms * 1000));
-}
+
 export const signup = async (req, res) => {
   try {
     const { firstName, lastName, userName, password, confirmPassword, gender } =
@@ -69,7 +67,6 @@ export const signup = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    await sleep(1); //
     const { userName, password } = req.body;
 
     const user = await User.findOne({ userName });
@@ -99,8 +96,6 @@ export const login = async (req, res) => {
 };
 
 export const logout = async (req, res) => {
-  await sleep(1); //
-
   try {
     res.cookie("jwt", "", {
       maxAge: 0,

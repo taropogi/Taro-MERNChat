@@ -35,8 +35,8 @@ export default function Message({ isOnline, message }) {
           <time className="text-xs opacity-50">{formattedTime}</time>
         </div>
         <div
-          className={`chat-bubble ${shakeClass} ${
-            isSenderMe ? "bg-blue-500 text-white" : ""
+          className={`chat-bubble   ${shakeClass} ${
+            isSenderMe ? "bg-red-400 text-white" : ""
           }`}
         >
           {" "}

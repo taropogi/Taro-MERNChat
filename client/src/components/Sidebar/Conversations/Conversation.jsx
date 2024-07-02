@@ -29,8 +29,8 @@ export default function Conversation({ conversation, isLast = false }) {
       <div
         onClick={handleSelectConversation}
         className={`${
-          isSelected ? "bg-sky-500" : ""
-        } flex gap-2 items-center hover:bg-sky-500 rounded p-2 py-1 cursor-pointer`}
+          isSelected ? "bg-red-400" : ""
+        } flex gap-2 items-center hover:bg-red-400 rounded p-2 py-1 cursor-pointer`}
       >
         <div className={`avatar ${isOnline ? "online" : ""}`}>
           <div className="w-12 rounded-full">
