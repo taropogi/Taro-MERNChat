@@ -39,7 +39,6 @@ export default function Message({ isOnline, message }) {
             isSenderMe ? "bg-red-400 text-white" : ""
           }`}
         >
-          {" "}
           {message.message}
         </div>
       </div>
