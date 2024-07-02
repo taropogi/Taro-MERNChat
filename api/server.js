@@ -1,7 +1,7 @@
 import path from "path";
 import express from "express";
 import dotenv from "dotenv";
-import connectDb from "./db/connectdb.js";
+import connectDb from "./db/theconnectdb.js";
 import cookieParser from "cookie-parser";
 //routes
 import authRoutes from "./routes/auth.routes.js";
@@ -19,7 +19,7 @@ app.use(cookieParser()); // middleware to parse the cookies
 // app.get("/", (req, res) => {
 //   res.send("This is the API Server");
 // });
-
+//game
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes);
