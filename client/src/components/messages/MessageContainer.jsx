@@ -3,8 +3,11 @@ import Messages from "./Messages";
 import NoChatSelected from "./NoChatSelected";
 import useConversation from "../../zustand/useConversation";
 import { useEffect } from "react";
+import useListenMessages from "../../hooks/useListenMessages";
 export default function MessageContainer() {
   const { selectedConversation, setSelectedConversation } = useConversation();
+  useListenMessages();
+
   useEffect(() => {
     return function () {
       setSelectedConversation(null);

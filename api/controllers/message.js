@@ -1,5 +1,7 @@
 import Conversation from "../models/conversation.js";
 import Message from "../models/message.js";
+import { getReceiverSocketId } from "../socket/socket.js";
+import { io } from "../socket/socket.js";
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms * 1000));
 }
@@ -29,10 +31,14 @@ export const sendMessage = async (req, res) => {
       conversation.messages.push(newMessage._id);
     }
 
-    // socket IO will go here
-
     await Promise.all([newMessage.save(), conversation.save()]);
 
+    // socket IO will go here
+    const receiverSockId = getReceiverSocketId(receiverId);
+    if (receiverSockId) {
+      // use to send event to specific client
+      io.to(receiverSockId).emit("newMessage", newMessage);
+    }
     res.status(201).json({
       newMessage,
     });

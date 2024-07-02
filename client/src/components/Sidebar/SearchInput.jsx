@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 export default function SearchInput() {
   const [search, setSearch] = useState("");
   const { setSelectedConversation } = useConversation();
+
   const { conversations } = useGetConversations();
 
   const handleSubmit = (e) => {

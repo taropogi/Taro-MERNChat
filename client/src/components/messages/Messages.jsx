@@ -5,6 +5,7 @@ import { useEffect, useRef } from "react";
 import { useSocket } from "../../contextProviders/SocketContext";
 export default function Messages() {
   const { messages, isLoading, receiverId } = useGetMessages();
+
   const lastMessageRef = useRef();
   const { onlineUsers } = useSocket();
   useEffect(() => {

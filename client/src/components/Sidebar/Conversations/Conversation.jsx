@@ -1,19 +1,33 @@
 import useConversation from "../../../zustand/useConversation";
 import { useSocket } from "../../../contextProviders/SocketContext";
-export default function Conversation({ conversation, emoji, isLast = false }) {
+export default function Conversation({ conversation, isLast = false }) {
+  const {
+    selectedConversation,
+    setSelectedConversation,
+    newMessages,
+    setNewMessages,
+  } = useConversation();
+  const conNewMessages = newMessages.find((m) => m.fromId === conversation._id);
+
   const { profilePic, firstName, lastName } = conversation;
   const fullName = `${firstName} ${lastName}`;
 
-  const { selectedConversation, setSelectedConversation } = useConversation();
   const isSelected = selectedConversation?._id === conversation._id;
 
   const { onlineUsers } = useSocket();
   const isOnline = onlineUsers.includes(conversation._id);
 
+  function handleSelectConversation() {
+    setSelectedConversation(conversation);
+    setNewMessages(
+      [...newMessages].filter((m) => m.fromId !== conversation._id)
+    );
+  }
+
   return (
     <>
       <div
-        onClick={() => setSelectedConversation(conversation)}
+        onClick={handleSelectConversation}
         className={`${
           isSelected ? "bg-sky-500" : ""
         } flex gap-2 items-center hover:bg-sky-500 rounded p-2 py-1 cursor-pointer`}
@@ -26,7 +40,12 @@ export default function Conversation({ conversation, emoji, isLast = false }) {
         <div className="flex flex-col flex-1">
           <div className="flex gap-3 justify-between">
             <p className="font-bold text-gray-200">{fullName}</p>
-            <span className="text-xl">{emoji}</span>
+
+            {conNewMessages && (
+              <span className="badge badge-secondary text-white">
+                {conNewMessages.count}
+              </span>
+            )}
           </div>
         </div>
       </div>

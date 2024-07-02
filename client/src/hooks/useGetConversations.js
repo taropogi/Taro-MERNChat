@@ -3,7 +3,6 @@ import toast from "react-hot-toast";
 
 const useGetConversations = () => {
   const [isLoading, setIsLoading] = useState(false);
-
   const [conversations, setConversations] = useState([]);
 
   useEffect(() => {

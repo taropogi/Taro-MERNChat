@@ -7,6 +7,7 @@ export const getUsersForSidebar = async (req, res) => {
     await sleep(1);
 
     const loggedInUserId = req.user._id;
+    // console.log("BE", req.user._id);
     const filteredUsers = await User.find({
       _id: {
         $ne: loggedInUserId, //ne = not equal
