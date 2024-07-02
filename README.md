@@ -16,6 +16,8 @@ Owned and developed by [Richard Bernisca](https://richardbernisca.com/about)
 - jsonwebtoken (for user authentication)
 - mongoose (for MongoDB ODM)
 - Zustand (for global state management)
+- Socket.IO (for realtime messages)
+- lodash (to reduce network traffice for realtime data exchange, using debounce)
 
 ## Date Started
 
