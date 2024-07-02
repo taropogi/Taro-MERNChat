@@ -16,32 +16,30 @@ export default function Message({ isOnline, message }) {
   const shakeClass = message?.shouldShake ? "shake" : "";
 
   return (
-    <>
-      <div className={`chat chat-${isSenderMe ? "end" : "start"}`}>
-        <div
-          className={`  chat-image avatar ${
-            isOnline && !isSenderMe ? "online" : ""
-          }`}
-        >
-          <div className="w-10 rounded-full">
-            <img
-              alt="User avatar"
-              src={isSenderMe ? authUser.profilePic : toChatProfilePic}
-            />
-          </div>
-        </div>
-        <div className="chat-header">
-          <span>{isSenderMe ? "You " : `${toChatFirstName} `} </span>
-          <time className="text-xs opacity-50">{formattedTime}</time>
-        </div>
-        <div
-          className={`chat-bubble   ${shakeClass} ${
-            isSenderMe ? "bg-red-400 text-white" : ""
-          }`}
-        >
-          {message.message}
+    <div className={`chat chat-${isSenderMe ? "end" : "start"}`}>
+      <div
+        className={`  chat-image avatar ${
+          isOnline && !isSenderMe ? "online" : ""
+        }`}
+      >
+        <div className="w-10 rounded-full">
+          <img
+            alt="User avatar"
+            src={isSenderMe ? authUser.profilePic : toChatProfilePic}
+          />
         </div>
       </div>
-    </>
+      <div className="chat-header">
+        <span>{isSenderMe ? "You " : `${toChatFirstName} `} </span>
+        <time className="text-xs opacity-50">{formattedTime}</time>
+      </div>
+      <div
+        className={`chat-bubble   ${shakeClass} ${
+          isSenderMe ? "bg-red-400 text-white" : ""
+        }`}
+      >
+        {message.message}
+      </div>
+    </div>
   );
 }
