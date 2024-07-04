@@ -4,7 +4,7 @@ Owned and developed by [Richard Bernisca](https://richardbernisca.com/about)
 
 ## Demo
 
-[http://project-mern-chat.richardbernisca.com/](http://project-mern-chat.richardbernisca.com/)
+<a href="http://project-mern-chat.richardbernisca.com/" target="_blank">http://project-mern-chat.richardbernisca.com/</a>
 
 ## Primary Tools
 
