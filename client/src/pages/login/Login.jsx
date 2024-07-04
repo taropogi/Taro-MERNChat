@@ -9,7 +9,7 @@ export default function Login() {
     <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
       <div className="w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-20">
         <h2 className="text-3xl font-bold text-center text-gray-300 ">
-          <TextLogo /> Login TEST HAHA
+          <TextLogo /> Login
         </h2>
         <form onSubmit={login}>
           <div>
