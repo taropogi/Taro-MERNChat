@@ -32,14 +32,11 @@ export default function Messages({ isTyping }) {
       {!isLoading &&
         messages.length > 0 &&
         messages.map((message, i) => (
-          <Message
-            key={message._id}
-            message={message}
-            isOnline={isToChatOnline}
-          />
-          // {i === messages.length - 1 && <span ref={lastMessageRef}>🤞</span>}
+          <div key={message._id} ref={lastMessageRef}>
+            <Message message={message} isOnline={isToChatOnline} />
+          </div>
         ))}
-      <span ref={lastMessageRef}>🤞</span>
+
       {isTyping && (
         <p ref={refMsgBox}>
           <Typing />
