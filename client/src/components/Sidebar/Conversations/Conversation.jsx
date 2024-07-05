@@ -49,6 +49,7 @@ export default function Conversation({ conversation, isLast = false }) {
           </div>
         </div>
       </div>
+
       {!isLast && <div className="divider my-0 py-0 h-1" />}
     </>
   );

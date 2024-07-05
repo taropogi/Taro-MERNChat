@@ -4,12 +4,14 @@ import { useCallback, useEffect, useRef } from "react";
 import { useSocket } from "../../contextProviders/SocketContext";
 import _ from "lodash";
 import useConversation from "../../zustand/useConversation";
+import { useAuth } from "../../contextProviders/AuthContext";
 
 export default function MessageInput({ onIsTyping: setIsTyping }) {
   const refMessageInput = useRef(null);
   const {
-    selectedConversation: { _id: receiverId },
+    selectedConversation: { _id: receiverId, fullName: toFullName },
   } = useConversation();
+  const { authUser } = useAuth();
   const { socket } = useSocket();
   const {
     isLoading: isSending,
@@ -26,15 +28,20 @@ export default function MessageInput({ onIsTyping: setIsTyping }) {
 
   //typing
   useEffect(() => {
-    const handleTyping = () => {
-      setIsTyping(true);
-      setTimeout(() => setIsTyping(false), 3000); // hide typing if 1 second of inactivity
+    const handleTyping = (res) => {
+      // console.log(res.senderId, receiverId);
+      if (res.senderId === receiverId) {
+        console.log(res.senderId + " is typingxx");
+        // console.log("selected Convo: " + receiverId);
+        setIsTyping(true);
+      }
+      setTimeout(() => setIsTyping(false), 3000); // hide typing if 3 second of inactivity
     };
     socket.on("typing", handleTyping);
     return () => {
       socket.off("typing", handleTyping);
     };
-  }, []);
+  }, [receiverId]);
 
   useEffect(() => {
     refMessageInput?.current.focus();
@@ -43,9 +50,9 @@ export default function MessageInput({ onIsTyping: setIsTyping }) {
   // Use useCallback to debounce the typing event
   const emitTypingEvent = useCallback(
     _.debounce(() => {
-      socket.emit("typing", { receiverId });
+      socket.emit("typing", { receiverId, senderId: authUser._id });
     }, 500),
-    []
+    [receiverId]
   ); // Adjust debounce delay as needed
 
   const handleInputChange = (e) => {

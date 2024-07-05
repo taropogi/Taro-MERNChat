@@ -30,7 +30,10 @@ io.on("connection", (socket) => {
     const receiverSocketId = getReceiverSocketId(data.receiverId);
     if (receiverSocketId) {
       // use to send event to specific client
-      io.to(receiverSocketId).emit("typing");
+      io.to(receiverSocketId).emit("typing", {
+        receiverId: data.receiverId,
+        senderId: data.senderId,
+      });
     }
   });
   // socket.on is used to listen to the events.
