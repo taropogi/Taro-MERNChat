@@ -3,6 +3,8 @@ import { useSocket } from "../contextProviders/SocketContext";
 import useConversation from "../zustand/useConversation";
 import notificationSound from "../assets/sounds/notification.mp3";
 import toast from "react-hot-toast";
+import sortConversations from "../utils/sortConversations";
+import { extractTime } from "../utils/extractTime";
 export default function useListenMessages() {
   const { socket } = useSocket();
 
@@ -12,6 +14,8 @@ export default function useListenMessages() {
     setMessages,
     newMessages,
     setNewMessages,
+    conversations,
+    setConversations,
   } = useConversation();
 
   useEffect(() => {
@@ -58,6 +62,8 @@ export default function useListenMessages() {
       addNewMessage(newMessage);
       const sound = new Audio(notificationSound);
       sound.play();
+
+      setConversations(sortConversations(conversations, newMessage.senderId));
     });
 
     return () => {
@@ -70,5 +76,7 @@ export default function useListenMessages() {
     newMessages,
     selectedConversation,
     setNewMessages,
+    conversations,
+    setConversations,
   ]);
 }

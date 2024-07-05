@@ -41,10 +41,12 @@ export default function Conversation({ conversation, isLast = false }) {
           <div className="flex gap-3 justify-between">
             <p className="font-bold text-gray-200">{fullName}</p>
 
-            {conNewMessages && (
+            {conNewMessages ? (
               <span className="badge badge-secondary text-white">
                 {conNewMessages.count}
               </span>
+            ) : (
+              conversation.formattedChatLastUpdate
             )}
           </div>
         </div>

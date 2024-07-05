@@ -1,6 +1,7 @@
 import Conversation from "../models/conversation.js";
 import Message from "../models/message.js";
 import { getReceiverSocketId } from "../socket/socket.js";
+import { extractTime } from "../../client/src/utils/extractTime.js";
 import { io } from "../socket/socket.js";
 
 export const sendMessage = async (req, res) => {
@@ -28,7 +29,7 @@ export const sendMessage = async (req, res) => {
     if (newMessage) {
       conversation.messages.push(newMessage._id);
     }
-
+    console.log(conversation._id);
     await Promise.all([newMessage.save(), conversation.save()]);
 
     // socket IO will go here

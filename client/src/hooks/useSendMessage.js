@@ -1,7 +1,8 @@
 import { useState } from "react";
 import useConversation from "../zustand/useConversation";
 import toast from "react-hot-toast";
-
+import sortConversations from "../utils/sortConversations";
+import { extractTime } from "../utils/extractTime";
 export default function useSendMessage() {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState("");
@@ -10,6 +11,8 @@ export default function useSendMessage() {
     messages,
     setMessages,
     selectedConversation: { _id: receiverId },
+    conversations,
+    setConversations,
   } = useConversation();
 
   const handleSendMessage = async () => {
@@ -31,6 +34,7 @@ export default function useSendMessage() {
 
       setMessage("");
       setMessages([...messages, data.newMessage]);
+      setConversations(sortConversations(conversations, receiverId));
     } catch (error) {
       toast.error(error.message);
     } finally {
