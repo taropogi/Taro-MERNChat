@@ -15,7 +15,7 @@ const ChatBubble = ({ data }) => {
           <img
             src={avatar}
             alt="Avatar"
-            className="w-10 h-10 rounded-full mr-4"
+            className="w-10 h-10 rounded-full mr-4 mb-0"
           />
         )}
 

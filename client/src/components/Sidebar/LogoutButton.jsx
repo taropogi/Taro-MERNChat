@@ -9,7 +9,13 @@ export default function LogoutButton() {
       {isLoading ? (
         <span className="loading loading-dots loading-xs"></span>
       ) : (
-        <BiLogOut className="w-6 h-6 text-white cursor-pointer" />
+        <>
+          <button className="btn btn-primary flex items-center text-white">
+            <BiLogOut className="h-5 w-5 mr-2" />
+            Logout
+          </button>
+          {/* Logout <BiLogOut className="w-6 h-6 text-white cursor-pointer" /> */}
+        </>
       )}
     </div>
   );
