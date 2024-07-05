@@ -14,7 +14,8 @@ export function extractTime(isoString) {
   hours = hours.toString().padStart(2, "0");
 
   const timeString = `${hours}:${minutes} ${ampm}`;
-  const dateString = date.toLocaleDateString();
+  const dateOptions = { year: "numeric", month: "long", day: "numeric" };
+  const dateString = date.toLocaleDateString(undefined, dateOptions);
 
   return isToday ? timeString : `${dateString} ${timeString}`;
 }
