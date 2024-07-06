@@ -4,6 +4,7 @@ import MessageSkeleton from "../UI/MessageSkeleton";
 import { useEffect, useRef } from "react";
 import { useSocket } from "../../contextProviders/SocketContext";
 import Typing from "./Typing";
+
 export default function Messages({ isTyping }) {
   const { messages, isLoading, receiverId } = useGetMessages();
 
@@ -32,7 +33,10 @@ export default function Messages({ isTyping }) {
       {!isLoading &&
         messages.length > 0 &&
         messages.map((message, i) => (
-          <div key={message._id} ref={lastMessageRef}>
+          <div
+            key={message._id}
+            ref={i === messages.length - 1 ? lastMessageRef : null}
+          >
             <Message message={message} isOnline={isToChatOnline} />
           </div>
         ))}
