@@ -1,21 +1,22 @@
 import { useAuth } from "../../contextProviders/AuthContext";
-import useConversation from "../../zustand/useConversation";
 import { extractTime } from "../../utils/extractTime";
 import ChatBubble from "./ChatBubble";
+import { useChatContext } from "../../contextProviders/ChatContext";
 export default function Message({ isOnline, message }) {
   const { authUser } = useAuth();
 
   const isSenderMe = authUser._id === message.senderId;
   const {
-    selectedConversation: {
+    selectedContact: {
       profilePic: toChatProfilePic,
       firstName: toChatFirstName,
     },
-  } = useConversation();
+  } = useChatContext();
   const formattedTime = extractTime(message.createdAt);
   const shakeClass = message?.shouldShake ? "shake" : "";
 
   const data = {
+    isOnline,
     isSenderMe,
     toChatFirstName,
     formattedTime,
@@ -24,34 +25,5 @@ export default function Message({ isOnline, message }) {
     avatar: isSenderMe ? authUser.profilePic : toChatProfilePic,
   };
 
-  return (
-    <>
-      <ChatBubble data={data} />
-      {/* <div className={`chat chat-${isSenderMe ? "end" : "start"}`}>
-        <div
-          className={`chat-image avatar ${
-            isOnline && !isSenderMe ? "online" : ""
-          }  `}
-        >
-          <div className="w-10 rounded-full">
-            <img
-              alt="User avatar"
-              src={isSenderMe ? authUser.profilePic : toChatProfilePic}
-            />
-          </div>
-        </div>
-        <div className="chat-header">
-          <span>{isSenderMe ? "You " : `${toChatFirstName} `} </span>
-          <time className="text-xs opacity-50">{formattedTime}</time>
-        </div>
-        <div
-          className={`chat-bubble ${shakeClass} ${
-            isSenderMe ? "bg-red-400 text-white" : ""
-          }`}
-        >
-          {message.message}
-        </div>
-      </div> */}
-    </>
-  );
+  return <ChatBubble data={data} />;
 }

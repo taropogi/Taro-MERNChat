@@ -44,6 +44,7 @@ export default function useListenMessages() {
     };
 
     socket?.on("newMessage", (newMessage) => {
+      console.log("old");
       if (selectedConversation?._id === newMessage.senderId) {
         newMessage.shouldShake = true;
 

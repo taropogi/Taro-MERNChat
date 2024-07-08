@@ -1,9 +1,9 @@
-import useConversation from "../../zustand/useConversation";
+import { useChatContext } from "../../contextProviders/ChatContext";
 
 export default function Typing() {
   const {
-    selectedConversation: { firstName },
-  } = useConversation();
+    selectedContact: { firstName },
+  } = useChatContext();
   return (
     <>
       <span> {firstName} is typing .</span>{" "}

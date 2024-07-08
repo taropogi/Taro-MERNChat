@@ -1,12 +1,17 @@
 import Message from "./Message";
-import useGetMessages from "../../hooks/useGetMessages";
 import MessageSkeleton from "../UI/MessageSkeleton";
 import { useEffect, useRef } from "react";
 import { useSocket } from "../../contextProviders/SocketContext";
 import Typing from "./Typing";
+import { useChatContext } from "../../contextProviders/ChatContext";
 
 export default function Messages({ isTyping }) {
-  const { messages, isLoading, receiverId } = useGetMessages();
+  // const { messages, isLoading, receiverId } = useGetMessages();
+  const {
+    selectedContact: { _id: receiverId },
+    selectedContactMessages: messages,
+    isLoading,
+  } = useChatContext();
 
   const lastMessageRef = useRef();
   const refMsgBox = useRef();
@@ -30,8 +35,7 @@ export default function Messages({ isTyping }) {
   const isToChatOnline = onlineUsers.includes(receiverId);
   return (
     <div className="px-4 flex-1 overflow-auto ">
-      {!isLoading &&
-        messages.length > 0 &&
+      {messages.length > 0 &&
         messages.map((message, i) => (
           <div
             key={message._id}

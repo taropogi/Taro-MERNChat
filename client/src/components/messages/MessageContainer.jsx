@@ -1,26 +1,20 @@
 import MessageInput from "./MessageInput";
 import Messages from "./Messages";
 import NoChatSelected from "./NoChatSelected";
-import useConversation from "../../zustand/useConversation";
-import { useEffect, useState } from "react";
-import useListenMessages from "../../hooks/useListenMessages";
+import { useState } from "react";
+// import useListenMessages from "../../hooks/useListenMessages";
 import MessageHeader from "./MessageHeader";
+import { useChatContext } from "../../contextProviders/ChatContext";
 export default function MessageContainer() {
-  const { selectedConversation, setSelectedConversation } = useConversation();
+  const { selectedContact } = useChatContext();
 
-  useListenMessages();
+  // useListenMessages();
 
   const [isTyping, setIsTyping] = useState(false);
 
-  useEffect(() => {
-    return function () {
-      setSelectedConversation(null);
-    };
-  }, [setSelectedConversation]);
-
   return (
     <div className="md:min-w-[550px] md:max-w-[550px] flex flex-col w-full">
-      {selectedConversation ? (
+      {selectedContact ? (
         <>
           <MessageHeader />
           <Messages isTyping={isTyping} />

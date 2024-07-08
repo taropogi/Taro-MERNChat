@@ -1,38 +1,42 @@
 import { IoSend } from "react-icons/io5";
-import useSendMessage from "../../hooks/useSendMessage";
-import { useCallback, useEffect, useRef } from "react";
+// import useSendMessage from "../../hooks/useSendMessage";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useSocket } from "../../contextProviders/SocketContext";
 import _ from "lodash";
-import useConversation from "../../zustand/useConversation";
+// import useConversation from "../../zustand/useConversation";
 import { useAuth } from "../../contextProviders/AuthContext";
+import { useChatContext } from "../../contextProviders/ChatContext";
 
 export default function MessageInput({ onIsTyping: setIsTyping }) {
   const refMessageInput = useRef(null);
   const {
-    selectedConversation: { _id: receiverId, fullName: toFullName },
-  } = useConversation();
+    selectedContact: { _id: receiverId, fullName: toFullName },
+    isSendingMessage: isSending,
+    sendMessage,
+  } = useChatContext();
   const { authUser } = useAuth();
   const { socket } = useSocket();
-  const {
-    isLoading: isSending,
-    message,
-    setMessage,
-    handleSendMessage,
-  } = useSendMessage();
+  const [message, setMessage] = useState("");
+  // const {
+  //   isLoading: isSending,
+  //   message,
+  //   setMessage,
+  //   handleSendMessage,
+  // } = useSendMessage();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    handleSendMessage();
+    sendMessage(message);
+    setMessage("");
   };
 
   //typing
   useEffect(() => {
     const handleTyping = (res) => {
-      // console.log(res.senderId, receiverId);
       if (res.senderId === receiverId) {
         console.log(res.senderId + " is typingxx");
-        // console.log("selected Convo: " + receiverId);
+
         setIsTyping(true);
       }
       setTimeout(() => setIsTyping(false), 3000); // hide typing if 3 second of inactivity

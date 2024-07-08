@@ -1,10 +1,14 @@
 import { useAuth } from "../../contextProviders/AuthContext";
+import { useChatContext } from "../../contextProviders/ChatContext";
 import useConversation from "../../zustand/useConversation";
 
 export default function MessageHeader() {
+  // const {
+  //   selectedConversation: { profilePic, fullName },
+  // } = useConversation();
   const {
-    selectedConversation: { profilePic, fullName },
-  } = useConversation();
+    selectedContact: { profilePic, fullName },
+  } = useChatContext();
   const { authUser } = useAuth();
   return (
     <div className="flex items-center justify-between bg-slate-300 px-4 py-2 mb-2">

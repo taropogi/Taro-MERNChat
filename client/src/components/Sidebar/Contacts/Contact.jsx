@@ -7,8 +7,9 @@ export default function Contact({ contact, isLast = false }) {
     //   newMessages,
     //   setNewMessages,
   } = useChatContext();
-  //   const conNewMessages = newMessages.find((m) => m.fromId === conversation._id);
-  const conNewMessages = 0;
+  const conNewMessages = contact.newMessages;
+  // console.log(conNewMessages);
+
   const { profilePic, firstName, lastName } = contact;
   const fullName = `${firstName} ${lastName}`;
 
@@ -41,9 +42,9 @@ export default function Contact({ contact, isLast = false }) {
           <div className="flex gap-3 justify-between">
             <p className="font-bold text-gray-200">{fullName}</p>
 
-            {conNewMessages ? (
+            {conNewMessages > 0 ? (
               <span className="badge badge-secondary text-white">
-                {conNewMessages.count}
+                {conNewMessages}
               </span>
             ) : (
               contact.formattedChatLastUpdate

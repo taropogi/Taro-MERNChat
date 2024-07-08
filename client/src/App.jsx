@@ -5,6 +5,7 @@ import SignUp from "./pages/signup/SignUp";
 import { Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { useAuth } from "./contextProviders/AuthContext";
+import { ChatProvider } from "./contextProviders/ChatContext";
 function App() {
   const { authUser } = useAuth();
   return (
@@ -12,7 +13,15 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={authUser ? <Home /> : <Navigate to="/login" />}
+          element={
+            authUser ? (
+              <ChatProvider>
+                <Home />
+              </ChatProvider>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
         <Route
           path="/login"
