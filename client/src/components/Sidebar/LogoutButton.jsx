@@ -1,8 +1,8 @@
 import { BiLogOut } from "react-icons/bi";
-import useLogout from "../../hooks/useLogout";
+import { useAuth } from "../../contextProviders/AuthContext";
 
 export default function LogoutButton() {
-  const { logout, isLoading } = useLogout();
+  const { logout, isLoading } = useAuth();
 
   return (
     <div className="mt-auto" onClick={logout}>

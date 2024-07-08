@@ -1,9 +1,16 @@
 import { Link } from "react-router-dom";
-import useLogin from "../../hooks/useLogin";
 import TextLogo from "../../components/UI/TextLogo";
+import { useAuth } from "../../contextProviders/AuthContext";
+import { useState } from "react";
 export default function Login() {
-  const { userName, setUserName, password, setPassword, isLoading, login } =
-    useLogin();
+  const { login, isLoading } = useAuth();
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    login(userName, password);
+  }
 
   return (
     <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
@@ -11,7 +18,7 @@ export default function Login() {
         <h2 className="text-3xl font-bold text-center text-gray-300 ">
           <TextLogo /> Login
         </h2>
-        <form onSubmit={login}>
+        <form onSubmit={handleSubmit}>
           <div>
             <label className="label p-2">
               <span className="text-base label-text">Username</span>
