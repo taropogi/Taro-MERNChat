@@ -9,7 +9,7 @@ const ChatBubble = ({ data }) => {
   } = data;
   return (
     <>
-      <div
+      {/* <div
         className={` ${shakeClass} chat chat-${isSenderMe ? "end" : "start"}`}
       >
         <div className={`chat-image avatar ${isOnline ? "online" : ""}`}>
@@ -17,10 +17,10 @@ const ChatBubble = ({ data }) => {
             <img alt="Avatar" src={avatar} />
           </div>
         </div>
-        {/* <div className="chat-header">
+        <div className="chat-header">
           Obi-Wan Kenobi
           <time className="text-xs opacity-50">{formattedTime}</time>
-        </div> */}
+        </div>
         <div
           className={`chat-bubble chat-bubble-${
             isSenderMe ? "info" : "secondary"
@@ -29,21 +29,16 @@ const ChatBubble = ({ data }) => {
           {message}
         </div>
         <div className="chat-footer opacity-50">{formattedTime}</div>
-      </div>
+      </div> */}
 
-      {/* <div
+      <div
         className={`flex items-start ${isSenderMe ? "justify-end" : ""} mb-4`}
       >
         {!isSenderMe && (
-          <div className="relative">
-            <img
-              src={avatar}
-              alt="Avatar"
-              className="w-10 h-10 rounded-full mr-4 mb-0"
-            />
-            {isOnline && (
-              <span className="absolute bottom-0 right-0 block h-3 w-3 rounded-full bg-green-500 border-2 border-white"></span>
-            )}
+          <div className={`avatar mr-4 ${isOnline ? "online" : ""}`}>
+            <div className="w-10 h-10 rounded-full ">
+              <img src={avatar} alt="user avatar" />
+            </div>
           </div>
         )}
 
@@ -75,7 +70,7 @@ const ChatBubble = ({ data }) => {
             className="w-10 h-10 rounded-full ml-4"
           />
         )}
-      </div> */}
+      </div>
     </>
   );
 };
