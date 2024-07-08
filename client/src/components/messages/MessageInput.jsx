@@ -1,9 +1,7 @@
 import { IoSend } from "react-icons/io5";
-// import useSendMessage from "../../hooks/useSendMessage";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSocket } from "../../contextProviders/SocketContext";
 import _ from "lodash";
-// import useConversation from "../../zustand/useConversation";
 import { useAuth } from "../../contextProviders/AuthContext";
 import { useChatContext } from "../../contextProviders/ChatContext";
 
@@ -11,18 +9,12 @@ export default function MessageInput({ onIsTyping: setIsTyping }) {
   const refMessageInput = useRef(null);
   const {
     selectedContact: { _id: receiverId, fullName: toFullName },
-    isSendingMessage: isSending,
+    isLoading: isSending,
     sendMessage,
   } = useChatContext();
   const { authUser } = useAuth();
   const { socket } = useSocket();
   const [message, setMessage] = useState("");
-  // const {
-  //   isLoading: isSending,
-  //   message,
-  //   setMessage,
-  //   handleSendMessage,
-  // } = useSendMessage();
 
   const handleSubmit = (e) => {
     e.preventDefault();

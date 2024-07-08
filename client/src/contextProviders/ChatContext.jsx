@@ -11,7 +11,7 @@ const initialState = {
   contacts: [],
   isLoading: false,
   error: null,
-  newMessages: [],
+  newMessages: JSON.parse(localStorage.getItem("new-messages-counter")) || [],
   isSendingMessage: false,
 };
 function reducer(state, action) {
@@ -23,7 +23,15 @@ function reducer(state, action) {
         ...state,
         isLoading: false,
         contacts: sortContacts(
-          action.payload.map((contact) => ({ ...contact, newMessages: 0 }))
+          action.payload.map((contact) => {
+            return {
+              ...contact,
+              newMessages:
+                state.newMessages?.find((m) => {
+                  return m.id === contact._id;
+                })?.count || 0,
+            };
+          })
         ),
       };
     case "contact/select":
@@ -86,6 +94,7 @@ export function ChatProvider({ className, children }) {
       error,
       selectedContactMessages,
       isSendingMessage,
+      newMessages,
     },
     dispatch,
   ] = useReducer(reducer, initialState);
@@ -153,13 +162,45 @@ export function ChatProvider({ className, children }) {
       toast.error(error.message);
     }
   };
+  function updateContactNewMessages(id, count = null) {
+    const storageNewMessages = JSON.parse(
+      localStorage.getItem("new-messages-counter")
+    );
 
+    let rec = storageNewMessages.find((m) => m.id === id)?.count || 0;
+
+    console.log("x", selectedContact?.id, id);
+    console.log("y", selectedContact?._id === id);
+    localStorage.setItem(
+      "new-messages-counter",
+      JSON.stringify([
+        ...storageNewMessages.filter((m) => {
+          return m.id !== id;
+        }),
+        {
+          id: id,
+          count:
+            count >= 0 ? count : rec + (selectedContact?._id === id ? 0 : 1),
+        },
+      ])
+    );
+  }
   function selectContact(contact) {
+    updateContactNewMessages(contact._id, 0);
+
     dispatch({ type: "contact/select", payload: contact });
   }
 
   useEffect(() => {
     getContacts();
+
+    const newMessagesStore = JSON.parse(
+      localStorage.getItem("new-messages-counter")
+    );
+
+    if (!newMessagesStore) {
+      localStorage.setItem("new-messages-counter", JSON.stringify([]));
+    }
   }, []);
 
   useEffect(() => {
@@ -182,6 +223,8 @@ export function ChatProvider({ className, children }) {
         });
       }
 
+      updateContactNewMessages(newMessage.senderId);
+
       dispatch({ type: "message/arrived", payload: newMessage });
 
       const sound = new Audio(notificationSound);
@@ -193,7 +236,7 @@ export function ChatProvider({ className, children }) {
     return () => {
       socket?.off("newMessage");
     };
-  }, [socket]);
+  }, [socket, selectedContact]);
 
   const values = {
     selectedContact,
