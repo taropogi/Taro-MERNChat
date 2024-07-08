@@ -35,8 +35,7 @@ export default function Messages({ isTyping }) {
   const isToChatOnline = onlineUsers.includes(receiverId);
   return (
     <div className="px-4 flex-1 overflow-auto ">
-      {!isLoading &&
-        messages.length > 0 &&
+      {messages.length > 0 &&
         messages.map((message, i) => (
           <div
             key={message._id}
