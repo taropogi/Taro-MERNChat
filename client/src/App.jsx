@@ -15,7 +15,7 @@ function App() {
           path="/"
           element={
             authUser ? (
-              <ChatProvider>
+              <ChatProvider className={`mx-auto`}>
                 <Home />
               </ChatProvider>
             ) : (
