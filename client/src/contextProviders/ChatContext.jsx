@@ -169,8 +169,7 @@ export function ChatProvider({ className, children }) {
 
     let rec = storageNewMessages.find((m) => m.id === id)?.count || 0;
 
-    console.log("x", selectedContact?.id, id);
-    console.log("y", selectedContact?._id === id);
+    console.log(storageNewMessages);
     localStorage.setItem(
       "new-messages-counter",
       JSON.stringify([
@@ -178,9 +177,8 @@ export function ChatProvider({ className, children }) {
           return m.id !== id;
         }),
         {
-          id: id,
-          count:
-            count >= 0 ? count : rec + (selectedContact?._id === id ? 0 : 1),
+          id,
+          count: count ?? rec + (selectedContact?._id === id ? 0 : 1),
         },
       ])
     );
