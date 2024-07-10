@@ -3,30 +3,17 @@ import { IoSearchSharp } from "react-icons/io5";
 import useConversation from "../../zustand/useConversation";
 import useGetConversations from "../../hooks/useGetConversations";
 import toast from "react-hot-toast";
+import { useChatContext } from "../../contextProviders/ChatContext";
 
 export default function SearchInput() {
   const [search, setSearch] = useState("");
-  const { setSelectedConversation } = useConversation();
 
-  const { conversations } = useGetConversations();
+  const { searchContacts } = useChatContext();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!search) return;
 
-    if (search.length < 3) {
-      return toast.error("Search term atleast 3 characters long.");
-    }
-    const conversation = conversations.find((c) =>
-      c.fullName.toLowerCase().includes(search.toLowerCase())
-    );
-
-    if (conversation) {
-      setSelectedConversation(conversation);
-      setSearch("");
-    } else {
-      toast.error("No such user found");
-    }
+    searchContacts(search);
   };
   return (
     <form className="flex items-center gap-2" onSubmit={handleSubmit}>

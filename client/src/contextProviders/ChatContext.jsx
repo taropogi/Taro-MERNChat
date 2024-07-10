@@ -87,6 +87,8 @@ function reducer(state, action) {
           action.payload.senderId
         ),
       };
+    case "contacts/search/found":
+      return { ...state, selectedContact: action.payload, searchContact: "" };
     case "rejected":
       return { ...state, isLoading: false, error: action.payload };
     default:
@@ -109,6 +111,23 @@ export function ChatProvider({ className, children }) {
     },
     dispatch,
   ] = useReducer(reducer, initialState);
+
+  const searchContacts = function (search) {
+    if (!search) return;
+
+    if (search.length < 3) {
+      return toast.error("Search term atleast 3 characters long.");
+    }
+    const contact = contacts.find((c) =>
+      c.fullName.toLowerCase().includes(search.toLowerCase())
+    );
+
+    if (contact) {
+      dispatch({ type: "contacts/search/found", payload: contact });
+    } else {
+      toast.error("No such user found");
+    }
+  };
 
   const getContacts = async () => {
     dispatch({ type: "contacts/loading" });
@@ -260,6 +279,7 @@ export function ChatProvider({ className, children }) {
     isLoadingMessages,
     isLoadingContacts,
     sendMessage,
+    searchContacts,
   };
   // console.log(socket);
   return (
