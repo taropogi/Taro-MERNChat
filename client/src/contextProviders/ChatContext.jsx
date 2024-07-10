@@ -20,7 +20,7 @@ function reducer(state, action) {
   switch (action.type) {
     case "loading":
       return { ...state, isLoading: true };
-    case "contacts/loadiong":
+    case "contacts/loading":
       return { ...state, isLoadingContacts: true };
     case "contacts/loaded":
       return {
@@ -111,7 +111,7 @@ export function ChatProvider({ className, children }) {
   ] = useReducer(reducer, initialState);
 
   const getContacts = async () => {
-    dispatch({ type: "loading" });
+    dispatch({ type: "contacts/loading" });
     try {
       const res = await fetch("/api/users");
       const data = await res.json();
