@@ -10,7 +10,7 @@ export default function Messages({ isTyping }) {
   const {
     selectedContact: { _id: receiverId },
     selectedContactMessages: messages,
-    isLoading,
+    isLoadingMessages: isLoading,
   } = useChatContext();
 
   const lastMessageRef = useRef();
@@ -35,7 +35,8 @@ export default function Messages({ isTyping }) {
   const isToChatOnline = onlineUsers.includes(receiverId);
   return (
     <div className="px-4 flex-1 overflow-auto ">
-      {messages.length > 0 &&
+      {!isLoading &&
+        messages.length > 0 &&
         messages.map((message, i) => (
           <div
             key={message._id}

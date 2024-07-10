@@ -9,8 +9,9 @@ export default function MessageInput({ onIsTyping: setIsTyping }) {
   const refMessageInput = useRef(null);
   const {
     selectedContact: { _id: receiverId, fullName: toFullName },
-    isLoading: isSending,
+    isLoading,
     sendMessage,
+    isSendingMessage: isSending,
   } = useChatContext();
   const { authUser } = useAuth();
   const { socket } = useSocket();

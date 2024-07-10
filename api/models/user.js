@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
 
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 const userSchema = mongoose.Schema(
   {
     firstName: {
@@ -33,6 +37,12 @@ const userSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+userSchema.pre("save", (next) => {
+  this.firstName = capitalizeFirstLetter(this.firstName);
+  this.lastName = capitalizeFirstLetter(this.lastName);
+  next();
+});
 
 userSchema.virtual("fullName").get(function () {
   return `${this.firstName} ${this.lastName}`;

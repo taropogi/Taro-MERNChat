@@ -10,6 +10,8 @@ const initialState = {
   selectedContactMessages: [],
   contacts: [],
   isLoading: false,
+  isLoadingMessages: false,
+  isLoadingContacts: false,
   error: null,
   newMessages: JSON.parse(localStorage.getItem("new-messages-counter")) || [],
   isSendingMessage: false,
@@ -18,10 +20,12 @@ function reducer(state, action) {
   switch (action.type) {
     case "loading":
       return { ...state, isLoading: true };
+    case "contacts/loadiong":
+      return { ...state, isLoadingContacts: true };
     case "contacts/loaded":
       return {
         ...state,
-        isLoading: false,
+        isLoadingContacts: false,
         contacts: sortContacts(
           action.payload.map((contact) => {
             return {
@@ -44,16 +48,21 @@ function reducer(state, action) {
           { ...action.payload, newMessages: 0 },
         ]),
       };
+    case "messages/loading":
+      return { ...state, isLoadingMessages: true };
     case "messages/loaded":
       return {
         ...state,
-        isLoading: false,
+        isLoadingMessages: false,
         selectedContactMessages: action.payload,
       };
+    case "message/sending":
+      return { ...state, isSendingMessage: true };
     case "message/sent":
       return {
         ...state,
         isLoading: false,
+        isSendingMessage: false,
         selectedContactMessages: [
           ...state.selectedContactMessages,
           action.payload,
@@ -94,6 +103,8 @@ export function ChatProvider({ className, children }) {
       error,
       selectedContactMessages,
       isSendingMessage,
+      isLoadingMessages,
+      isLoadingContacts,
       newMessages,
     },
     dispatch,
@@ -119,7 +130,7 @@ export function ChatProvider({ className, children }) {
   };
 
   const getMessages = async () => {
-    dispatch({ type: "loading" });
+    dispatch({ type: "messages/loading" });
     try {
       const res = await fetch(`/api/messages/${selectedContact._id}`);
       const data = await res.json();
@@ -139,7 +150,7 @@ export function ChatProvider({ className, children }) {
 
   const sendMessage = async (message) => {
     if (!message) return;
-    dispatch({ type: "loading" });
+    dispatch({ type: "message/sending" });
     try {
       const res = await fetch(`/api/messages/send/${selectedContact._id}`, {
         method: "POST",
@@ -153,6 +164,7 @@ export function ChatProvider({ className, children }) {
       if (data.error) {
         throw new Error(data.error);
       }
+      // data.newMessage.shouldShake = true;
       dispatch({ type: "message/sent", payload: data.newMessage });
     } catch (error) {
       dispatch({
@@ -245,6 +257,8 @@ export function ChatProvider({ className, children }) {
     getMessages,
     selectedContactMessages,
     isSendingMessage,
+    isLoadingMessages,
+    isLoadingContacts,
     sendMessage,
   };
   // console.log(socket);

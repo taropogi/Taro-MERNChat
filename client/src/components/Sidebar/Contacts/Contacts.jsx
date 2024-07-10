@@ -2,7 +2,7 @@ import { useChatContext } from "../../../contextProviders/ChatContext";
 import Contact from "./Contact";
 
 export default function Contacts() {
-  const { contacts, isLoading } = useChatContext();
+  const { contacts, isLoadingContacts: isLoading } = useChatContext();
 
   return (
     <div className="py-2 flex flex-col overflow-auto">
