@@ -8,11 +8,21 @@ const initialState = {
   isAuthenticated: false,
   isLoading: false,
   error: "",
+  isSignedUp: false,
 };
 function reducer(state, action) {
   switch (action.type) {
     case "loading":
       return { ...state, isLoading: true };
+
+    case "signup/success":
+      return {
+        ...state,
+        isLoading: false,
+        isSignedUp: true,
+        user: action.payload,
+        isAuthenticated: true,
+      };
     case "loggedIn":
       return {
         ...state,
@@ -34,6 +44,65 @@ export function AuthProvider({ children }) {
     initialState
   );
 
+  const signup = async (inputs) => {
+    const success = handleSingnUpInputErrors(inputs);
+    if (!success) return;
+    dispatch({ type: "loading" });
+    try {
+      const res = await fetch(`/api/auth/signup`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(inputs),
+      });
+      const data = await res.json();
+      if (data.error) {
+        throw new Error(data.error);
+      }
+      //set user to localstorage
+      // console.log("singup user: ", data);
+      localStorage.setItem("chat-user", JSON.stringify(data));
+      // console.log("test signup");
+      dispatch({ type: "signup/success", payload: data });
+    } catch (error) {
+      dispatch({ type: "rejected", payload: error.message });
+      toast.error(error.message);
+    }
+  };
+
+  function handleSingnUpInputErrors({
+    firstName,
+    lastName,
+    userName,
+    password,
+    confirmPassword,
+    gender,
+  }) {
+    if (
+      !firstName ||
+      !lastName ||
+      !userName ||
+      !password ||
+      !confirmPassword ||
+      !gender
+    ) {
+      toast.error("Please fill in all the fields");
+      return false;
+    }
+    if (password !== confirmPassword) {
+      toast.error("Password mismatch");
+      return false;
+    }
+
+    if (password.length < 5) {
+      toast.error("Password must be at least 6 characters");
+      return false;
+    }
+
+    return true;
+  }
+
   const login = async (userName, password) => {
     try {
       if (!userName || !password) {
@@ -54,6 +123,8 @@ export function AuthProvider({ children }) {
       if (data.error) {
         throw new Error(data.error);
       }
+
+      // console.log("login user: ", data);
       localStorage.setItem("chat-user", JSON.stringify(data));
       dispatch({ type: "loggedIn", payload: data });
 
@@ -92,6 +163,7 @@ export function AuthProvider({ children }) {
         isLoading,
         error,
         logout,
+        signup,
       }}
     >
       {children}

@@ -1,4 +1,5 @@
 import { extractTime } from "./extractTime";
+
 export default function sortContacts(
   array,
   updateConversationId = null,
@@ -43,7 +44,19 @@ export default function sortContacts(
       return 1;
     }
 
-    // If neither have chatLastUpdate, maintain their current order
+    // If neither have chatLastUpdate, sort by fullName
+    const fullNameA = a.fullName.toLowerCase();
+    const fullNameB = b.fullName.toLowerCase();
+
+    if (fullNameA < fullNameB) {
+      return order === "ascending" ? -1 : 1;
+    }
+
+    if (fullNameA > fullNameB) {
+      return order === "ascending" ? 1 : -1;
+    }
+
+    // If full names are equal
     return 0;
   });
 }

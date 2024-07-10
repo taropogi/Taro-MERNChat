@@ -1,12 +1,25 @@
 import { Link } from "react-router-dom";
 import GenderCheckbox from "./GenderCheckbox";
 import TextLogo from "../../components/UI/TextLogo";
-import useSignup from "../../hooks/useSignup";
+// import useSignup from "../../hooks/useSignup";
+import { useAuth } from "../../contextProviders/AuthContext";
+import { useState } from "react";
+
+const initialInputState = {
+  firstName: "",
+  lastName: "",
+  userName: "",
+  password: "",
+  confirmPassword: "",
+  gender: "Male",
+};
+
 export default function SignUp() {
-  const { inputs, signup, isLoading, setInputs } = useSignup();
+  const [inputs, setInputs] = useState(initialInputState);
+  const { signup, isLoading } = useAuth();
   function handleSubmit(e) {
     e.preventDefault();
-    signup();
+    signup(inputs);
   }
 
   function handleCheckboxChange(gender) {

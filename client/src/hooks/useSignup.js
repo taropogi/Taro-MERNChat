@@ -35,6 +35,7 @@ export default function useSignup() {
       }
       //set user to localstorage
       localStorage.setItem("chat-user", JSON.stringify(data));
+      console.log("test signup");
       setAuthUser(data);
     } catch (error) {
       toast.error(error.message);

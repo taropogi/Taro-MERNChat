@@ -51,6 +51,7 @@ export const signup = async (req, res) => {
         lastName,
         userName,
         profilePic,
+        fullName: newUser.fullName,
       });
     } else {
       res.status(400).json({

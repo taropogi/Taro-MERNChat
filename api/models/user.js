@@ -38,7 +38,7 @@ const userSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.pre("save", (next) => {
+userSchema.pre("save", function (next) {
   this.firstName = capitalizeFirstLetter(this.firstName);
   this.lastName = capitalizeFirstLetter(this.lastName);
   next();
