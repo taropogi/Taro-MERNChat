@@ -15,6 +15,7 @@ const initialState = {
   error: null,
   newMessages: JSON.parse(localStorage.getItem("new-messages-counter")) || [],
   isSendingMessage: false,
+  contactsFilterOnlineOnly: false,
 };
 function reducer(state, action) {
   switch (action.type) {
@@ -38,6 +39,8 @@ function reducer(state, action) {
           })
         ),
       };
+    case "contacts/filter/online-only":
+      return { ...state, contactsFilterOnlineOnly: action.payload };
     case "contact/select":
       return {
         ...state,
@@ -108,6 +111,7 @@ export function ChatProvider({ className, children }) {
       isLoadingMessages,
       isLoadingContacts,
       newMessages,
+      contactsFilterOnlineOnly,
     },
     dispatch,
   ] = useReducer(reducer, initialState);
@@ -200,7 +204,7 @@ export function ChatProvider({ className, children }) {
 
     let rec = storageNewMessages.find((m) => m.id === id)?.count || 0;
 
-    console.log(storageNewMessages);
+    // console.log(storageNewMessages);
     localStorage.setItem(
       "new-messages-counter",
       JSON.stringify([
@@ -280,6 +284,8 @@ export function ChatProvider({ className, children }) {
     isLoadingContacts,
     sendMessage,
     searchContacts,
+    dispatch,
+    contactsFilterOnlineOnly,
   };
   // console.log(socket);
   return (

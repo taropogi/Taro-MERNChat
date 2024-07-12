@@ -12,7 +12,14 @@ export default function Contact({ contact, isLast = false }) {
 
   const { profilePic, firstName, lastName } = contact;
   const fullName = `${firstName} ${lastName}`;
+  let fullNameCut;
 
+  const fullNameLimit = 15;
+  if (fullName.length <= fullNameLimit) {
+    fullNameCut = fullName; // Display full name if 10 characters or less
+  } else {
+    fullNameCut = `${fullName.slice(0, fullNameLimit)}...`; // Truncate and add '...' if more than 10 characters
+  }
   const isSelected = selectedContact?._id === contact._id;
 
   const { onlineUsers } = useSocket();
@@ -40,7 +47,7 @@ export default function Contact({ contact, isLast = false }) {
         </div>
         <div className="flex flex-col flex-1">
           <div className="flex gap-3 justify-between">
-            <p className="font-bold text-gray-200">{fullName}</p>
+            <p className="font-bold text-gray-200">{fullNameCut}</p>
 
             {conNewMessages > 0 ? (
               <span className="badge badge-secondary text-white">

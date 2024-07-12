@@ -7,6 +7,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 import userRoutes from "./routes/user.routes.js";
+import cleanupRoutes from "./routes/cleanup.routes.js";
 import { app, server } from "./socket/socket.js";
 
 dotenv.config();
@@ -20,6 +21,8 @@ app.use(cookieParser()); // middleware to parse the cookies
 //   res.send("This is the API Server");
 // });
 //game
+
+app.use("/api/app/reset", cleanupRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 app.use("/api/users", userRoutes);
