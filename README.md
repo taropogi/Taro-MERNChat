@@ -25,4 +25,4 @@ Owned and developed by [Richard Bernisca](https://richardbernisca.com/about)
 
 ## Date Started
 
-Development of this application began on **July 30,2024**
+Development of this application began on **June 30,2024**
