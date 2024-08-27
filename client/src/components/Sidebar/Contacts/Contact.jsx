@@ -26,7 +26,7 @@ export default function Contact({ contact, isLast = false }) {
   const isOnline = onlineUsers.includes(contact._id);
 
   function handleSelectedChat() {
-    selectContact(contact);
+    !isSelected && selectContact(contact);
     //   setNewMessages(
     //     [...newMessages].filter((m) => m.fromId !== conversation._id)
     //   );
